@@ -3,9 +3,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:my_secret/widgets/my_elevated_button.dart';
 import 'package:my_secret/widgets/my_text.dart';
 import '../widgets/my_animated_text.dart';
+import '../widgets/my_text_form_field.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -17,8 +18,6 @@ class _Login extends State<Login> {
   Widget build(BuildContext context) {
     const Color redColor = Color(0xffFF5B5B);
     const Color blueColor = Color(0xff007CB1);
-    final TextStyle tfTextStyle = GoogleFonts.montserrat(
-        color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600);
     final String logoMain = "images/logo_no_text.svg";
     final Widget logoDisplay = SvgPicture.asset(
       logoMain,
@@ -107,7 +106,6 @@ class _Login extends State<Login> {
                             ),
                           ),
                           _tffUsername(
-                            tfTextStyle,
                             blueColor,
                             Icon(
                               Icons.account_circle_rounded,
@@ -117,7 +115,6 @@ class _Login extends State<Login> {
                           Padding(
                             padding: const EdgeInsets.only(top: 12),
                             child: _tffPassword(
-                              tfTextStyle,
                               blueColor,
                               Icon(
                                 Icons.lock_rounded,
@@ -143,58 +140,18 @@ class _Login extends State<Login> {
     );
   }
 
-  OutlineInputBorder _tffOutlineInputBorder(Color color) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(24),
-        borderSide: BorderSide(color: color, width: 2));
+  Widget _tffUsername(Color enabledColor, Icon icon) {
+    return MyTextFormField("Username", enabledColor, icon, TextInputType.text,
+        TextInputAction.next, false);
   }
 
-  InputDecoration _tffInputDecoration(
-      String hint, Color enabledColor, Icon icon) {
-    final TextStyle tfHintStyle = GoogleFonts.montserrat(
-        color: Colors.white70, fontSize: 18, fontWeight: FontWeight.w600);
-    return InputDecoration(
-        prefixIcon: icon,
-        hintText: hint,
-        focusedBorder: _tffOutlineInputBorder(Colors.blue),
-        enabledBorder: _tffOutlineInputBorder(enabledColor),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
-        hintStyle: tfHintStyle);
-  }
-
-  Widget _tffUsername(TextStyle textStyle, Color enabledColor, Icon icon) {
-    return TextFormField(
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        style: textStyle,
-        decoration: _tffInputDecoration("Username", enabledColor, icon));
-  }
-
-  Widget _tffPassword(TextStyle textStyle, Color enabledColor, Icon icon) {
-    return TextFormField(
-        keyboardType: TextInputType.visiblePassword,
-        obscureText: true,
-        style: textStyle,
-        decoration: _tffInputDecoration("Password", enabledColor, icon));
+  Widget _tffPassword(Color enabledColor, Icon icon) {
+    return MyTextFormField("Password", enabledColor, icon,
+        TextInputType.visiblePassword, TextInputAction.none, true);
   }
 
   Widget _loginButton(Color primaryColor) {
-    return ElevatedButton(
-      onPressed: () {},
-      child: Text(
-        "Login",
-        style: GoogleFonts.montserrat(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-          primary: primaryColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          minimumSize: Size(MediaQuery.of(context).size.width - 32, 48)),
-    );
+    return MyElevatedButton("Login", primaryColor,
+        Size(MediaQuery.of(context).size.width - 32, 48));
   }
 }
