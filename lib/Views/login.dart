@@ -41,97 +41,88 @@ class _Login extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [logoDisplay],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [logoDisplay],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Form(
-                      child: Column(
-                        children: [
-                          Row(children: [
-                            MyAnimatedText(
-                              text: "echo ",
-                              textColor: redColor,
+                  Form(
+                    child: Column(
+                      children: [
+                        Row(children: [
+                          MyAnimatedText(
+                            text: "echo ",
+                            textColor: redColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w300,
+                            speedAnimationDuration:
+                                const Duration(milliseconds: 50),
+                            pauseAnimationDuration:
+                                const Duration(milliseconds: 100),
+                          ),
+                          MyAnimatedText(
+                              text: '"Can you reveal my secret?"',
+                              textColor: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.w300,
                               speedAnimationDuration:
                                   const Duration(milliseconds: 50),
                               pauseAnimationDuration:
-                                  const Duration(milliseconds: 100),
-                            ),
-                            MyAnimatedText(
-                                text: '"Can you reveal my secret?"',
-                                textColor: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w300,
+                                  const Duration(milliseconds: 300)),
+                        ]),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 12, 0, 48),
+                          child: Row(
+                            children: [
+                              MyText(
+                                  text: "> ",
+                                  textColor: Colors.white,
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.w700, overflow: TextOverflow.visible,),
+                              MyAnimatedText(
+                                text: "sudo ",
+                                textColor: redColor,
+                                fontSize: 36,
+                                fontWeight: FontWeight.w700,
                                 speedAnimationDuration:
-                                    const Duration(milliseconds: 50),
+                                    const Duration(milliseconds: 300),
                                 pauseAnimationDuration:
-                                    const Duration(milliseconds: 300)),
-                          ]),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 48),
-                            child: Row(
-                              children: [
-                                MyText(
-                                    text: "> ",
-                                    textColor: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w700),
-                                MyAnimatedText(
-                                  text: "sudo ",
-                                  textColor: redColor,
+                                    const Duration(milliseconds: 400),
+                              ),
+                              MyAnimatedText(
+                                  text: "Login",
+                                  textColor: Colors.white,
                                   fontSize: 36,
                                   fontWeight: FontWeight.w700,
                                   speedAnimationDuration:
-                                      const Duration(milliseconds: 300),
-                                  pauseAnimationDuration:
                                       const Duration(milliseconds: 400),
-                                ),
-                                MyAnimatedText(
-                                    text: "Login",
-                                    textColor: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w700,
-                                    speedAnimationDuration:
-                                        const Duration(milliseconds: 400),
-                                    pauseAnimationDuration:
-                                        const Duration(milliseconds: 500)),
-                              ],
-                            ),
+                                  pauseAnimationDuration:
+                                      const Duration(milliseconds: 500)),
+                            ],
                           ),
-                          _tffUsername(
+                        ),
+                        _tffUsername(
+                          blueColor,
+                          Icon(
+                            Icons.account_circle_rounded,
+                            color: blueColor,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: _tffPassword(
                             blueColor,
                             Icon(
-                              Icons.account_circle_rounded,
+                              Icons.lock_rounded,
                               color: blueColor,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: _tffPassword(
-                              blueColor,
-                              Icon(
-                                Icons.lock_rounded,
-                                color: blueColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [_loginButton(blueColor)],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [_loginButton(blueColor)],
                   ),
                 ],
               ),
