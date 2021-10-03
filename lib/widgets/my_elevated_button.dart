@@ -2,29 +2,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyElevatedButton extends StatefulWidget{
-  final String _buttonText;
-  final Color _primaryColor;
-  final Size _minimumSize;
+class MyElevatedButton extends StatefulWidget {
+  final String buttonText;
+  final Color primaryColor;
+  final Size minimumSize;
 
-  MyElevatedButton(this._buttonText, this._primaryColor, this._minimumSize);
+  MyElevatedButton(
+      {required this.buttonText,
+      required this.primaryColor,
+      required this.minimumSize});
+
   @override
-  State<StatefulWidget> createState() => _MyElevatedButton(this._buttonText, this._primaryColor, this._minimumSize);
-  
+  State<StatefulWidget> createState() => _MyElevatedButton(
+      buttonText: this.buttonText,
+      primaryColor: this.primaryColor,
+      minimumSize: this.minimumSize);
 }
 
-class _MyElevatedButton extends State<MyElevatedButton>{
-  final String _buttonText;
-  final Color _primaryColor;
-  final Size _minimumSize;
+class _MyElevatedButton extends State<MyElevatedButton> {
+  final String buttonText;
+  final Color primaryColor;
+  final Size minimumSize;
 
-  _MyElevatedButton(this._buttonText, this._primaryColor, this._minimumSize);
+  _MyElevatedButton(
+      {required this.buttonText,
+      required this.primaryColor,
+      required this.minimumSize});
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {},
       child: Text(
-        _buttonText,
+        buttonText,
         style: GoogleFonts.montserrat(
           color: Colors.white,
           fontSize: 18,
@@ -32,11 +42,10 @@ class _MyElevatedButton extends State<MyElevatedButton>{
         ),
       ),
       style: ElevatedButton.styleFrom(
-          primary: _primaryColor,
+          primary: primaryColor,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          minimumSize: _minimumSize),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          minimumSize: minimumSize),
     );
   }
-  
 }

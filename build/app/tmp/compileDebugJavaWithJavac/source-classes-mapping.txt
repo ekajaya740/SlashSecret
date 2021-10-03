@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+id/ekajaya740/roxasiumsoftware/mysecret/my_secret/BuildConfig.java
+ id.ekajaya740.roxasiumsoftware.mysecret.my_secret.BuildConfig
