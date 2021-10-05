@@ -18,6 +18,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginView extends State<LoginView> {
   late var username;
+  late var pin;
   final TextEditingController _usernameController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
 
@@ -163,6 +164,7 @@ class _LoginView extends State<LoginView> {
       textInputAction: TextInputAction.next,
       obscureText: false,
       textEditingController: textEditingController,
+      maxLines: 1,
     );
   }
 
@@ -175,6 +177,7 @@ class _LoginView extends State<LoginView> {
       textInputAction: TextInputAction.none,
       obscureText: true,
       textEditingController: textEditingController,
+      maxLines: 1,
     );
   }
 
@@ -189,6 +192,7 @@ class _LoginView extends State<LoginView> {
             if (usernameController.text == accounts[index].username &&
                 passwordController.text == accounts[index].password) {
               this.username = usernameController.text;
+              this.pin = accounts[index].pin;
               if (usernameController.text == accounts[0].username &&
                   passwordController.text == accounts[0].password) {
                 files.add(FilesDatabase(
@@ -204,7 +208,7 @@ class _LoginView extends State<LoginView> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MainView(username: this.username)));
+                      builder: (context) => MainView(username: this.username, pin: this.pin,)));
               _usernameController.clear();
               _passwordController.clear();
               //Change UsernameController

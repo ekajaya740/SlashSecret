@@ -10,25 +10,27 @@ import '../widgets/my_text.dart';
 
 class MainView extends StatefulWidget {
   final String username;
+  final String pin;
 
-  MainView({required this.username});
+  MainView({required this.username, required this.pin});
 
   @override
-  State<StatefulWidget> createState() => _MainView(username: this.username);
+  State<StatefulWidget> createState() => _MainView(username: this.username, pin: this.pin);
 }
 
 class _MainView extends State<MainView> {
   bool _isGrid = true;
   final String username;
+  final String pin;
 
-  _MainView({required this.username});
+  _MainView({required this.username, required this.pin});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
           appBar: _myAppbar(username),
-          body: _isGrid ? MainViewGrid() : MainViewList(),
+          body: _isGrid ? MainViewGrid(pin: this.pin,) : MainViewList(pin: this.pin,),
         ));
   }
 

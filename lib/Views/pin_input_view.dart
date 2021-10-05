@@ -5,16 +5,35 @@ import 'package:my_secret/widgets/my_elevated_button.dart';
 import 'package:my_secret/widgets/my_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../widgets/my_appbar.dart';
+import 'files_content_view.dart';
 
 class PinInputView extends StatefulWidget {
+  final String pin;
+  final String fileName;
+  final String fileData;
+
+  PinInputView(
+      {required this.pin, required this.fileData, required this.fileName});
+
   @override
-  State<StatefulWidget> createState() => _PinInputView();
+  State<StatefulWidget> createState() => _PinInputView(
+      pin: this.pin, fileName: this.fileName, fileData: this.fileData);
 }
 
 class _PinInputView extends State<PinInputView> {
+  final String pin;
+  final String fileName;
+  final String fileData;
+
+  TextEditingController _pinController = new TextEditingController();
+
+  _PinInputView(
+      {required this.pin, required this.fileData, required this.fileName});
+
   @override
   Widget build(BuildContext context) {
     const Color _blueColor = Color(0xff007CB1);
+    String _pinInput;
     return SafeArea(
       child: Scaffold(
           appBar: _myAppBar("INPUT PIN"),
@@ -30,8 +49,13 @@ class _PinInputView extends State<PinInputView> {
                 ),
                 PinCodeTextField(
                   appContext: context,
+                  controller: _pinController,
                   length: 6,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() {
+                      _pinInput = value;
+                    });
+                  },
                   obscureText: true,
                   textStyle: GoogleFonts.montserrat(
                       textStyle: TextStyle(color: Colors.white, fontSize: 16)),
@@ -45,7 +69,16 @@ class _PinInputView extends State<PinInputView> {
                       inactiveColor: Colors.blueGrey),
                 ),
                 MyElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_pinController.text == pin) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FilesContentView(
+                                    fileData: this.fileData,
+                                    fileName: this.fileName)));
+                      }
+                    },
                     buttonText: "Continue",
                     primaryColor: _blueColor,
                     minimumSize:

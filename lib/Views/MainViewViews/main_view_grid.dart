@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:my_secret/Database/files_database.dart';
 import 'package:my_secret/widgets/my_card.dart';
 import 'package:my_secret/widgets/my_text.dart';
-import '../../Database/account_database.dart';
+import '../files_content_view.dart';
+import '../pin_input_view.dart';
 
 class MainViewGrid extends StatefulWidget {
+  final String pin;
+
+  MainViewGrid({required this.pin});
   @override
-  State<StatefulWidget> createState() => _MainViewGrid();
+  State<StatefulWidget> createState() => _MainViewGrid(pin: this.pin);
 }
 
 class _MainViewGrid extends State<MainViewGrid> {
+  final String pin;
   int axisCount = 2;
+
+  _MainViewGrid({required this.pin});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +35,16 @@ class _MainViewGrid extends State<MainViewGrid> {
         final FilesDatabase filesDatabase = files[index];
         return MyCard(
             onTap: () {
-
+              if(filesDatabase.isLocked){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context) => PinInputView(pin: this.pin, fileName: filesDatabase.fileName, fileData: filesDatabase.fileContent,)));
+              }else{
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context) => FilesContentView(fileData: filesDatabase.fileContent,fileName: filesDatabase.fileName)));
+              }
             },
-            child: _folderFront(
-                filesDatabase.fileName, filesDatabase.isLocked));
+            child:
+                _folderFront(filesDatabase.fileName, filesDatabase.isLocked));
       },
     );
   }

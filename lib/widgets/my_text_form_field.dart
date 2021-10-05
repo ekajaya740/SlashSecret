@@ -3,20 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MyTextFormField extends StatefulWidget {
-  final String hint;
-  final Icon icon;
+  final String? hint;
+  final Icon? icon;
   final TextInputType textInputType;
   final TextInputAction textInputAction;
   final bool obscureText;
-  final TextEditingController textEditingController;
+  final TextEditingController? textEditingController;
+  final int maxLines;
+  final String? initialValue;
 
   MyTextFormField(
-      {required this.hint,
-      required this.icon,
+      {this.hint,
+      this.icon,
       required this.textInputType,
       required this.textInputAction,
       required this.obscureText,
-      required this.textEditingController});
+      this.textEditingController,
+      required this.maxLines,
+      this.initialValue});
 
   @override
   State<StatefulWidget> createState() => _MyTextFormField(
@@ -25,38 +29,47 @@ class MyTextFormField extends StatefulWidget {
       textInputType: this.textInputType,
       textInputAction: this.textInputAction,
       obscureText: this.obscureText,
-      textEditingController: this.textEditingController);
+      textEditingController: this.textEditingController,
+      maxLines: this.maxLines,
+      initialValue: this.initialValue);
 }
 
 class _MyTextFormField extends State<MyTextFormField> {
-  final String hint;
-  final Icon icon;
+  final String? hint;
+  final Icon? icon;
   final TextInputType textInputType;
   final TextInputAction textInputAction;
   final bool obscureText;
-  final TextEditingController textEditingController;
+  final TextEditingController? textEditingController;
+  final int maxLines;
+  final String? initialValue;
+
   final TextStyle _tfTextStyle = GoogleFonts.montserrat(
       color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600);
 
   _MyTextFormField(
-      {required this.hint,
-      required this.icon,
+      {this.hint,
+      this.icon,
       required this.textInputType,
       required this.textInputAction,
       required this.obscureText,
-      required this.textEditingController});
+      this.textEditingController,
+      required this.maxLines,
+      this.initialValue});
 
   @override
   Widget build(BuildContext context) {
     const Color _redColor = Color(0xffCF3434);
     const Color _blueColor = Color(0xff007CB1);
     return TextFormField(
-        controller: textEditingController,
-        obscureText: obscureText,
-        keyboardType: textInputType,
-        textInputAction: textInputAction,
-        style: _tfTextStyle,
-        decoration: _tffInputDecoration(hint, _blueColor, _redColor, icon));
+      controller: textEditingController,
+      obscureText: obscureText,
+      keyboardType: textInputType,
+      textInputAction: textInputAction,
+      style: _tfTextStyle,
+      decoration: _tffInputDecoration(hint, _blueColor, _redColor, icon),
+      maxLines: maxLines,
+    );
   }
 
   OutlineInputBorder _tffOutlineInputBorder(Color color) {
@@ -66,8 +79,7 @@ class _MyTextFormField extends State<MyTextFormField> {
   }
 
   InputDecoration _tffInputDecoration(
-      String hint, Color enabledColor, Color errorColor, Icon icon) {
-
+      String? hint, Color enabledColor, Color errorColor, Icon? icon) {
     final TextStyle tfHintStyle = GoogleFonts.montserrat(
         color: Colors.white70, fontSize: 18, fontWeight: FontWeight.w600);
     return InputDecoration(
