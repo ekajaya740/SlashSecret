@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_secret/widgets/my_elevated_button.dart';
 import 'package:my_secret/widgets/my_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import '../widgets/my_appbar.dart';
 
 class PinInputView extends StatefulWidget {
   @override
@@ -33,8 +34,8 @@ class _PinInputView extends State<PinInputView> {
                   onChanged: (value) {},
                   obscureText: true,
                   textStyle: GoogleFonts.montserrat(
-                    textStyle: TextStyle(color: Colors.white, fontSize: 16)
-                  ),
+                      textStyle: TextStyle(color: Colors.white, fontSize: 16)),
+                  keyboardType: TextInputType.number,
                   pinTheme: PinTheme(
                       shape: PinCodeFieldShape.box,
                       borderRadius: BorderRadius.circular(8),
@@ -44,6 +45,7 @@ class _PinInputView extends State<PinInputView> {
                       inactiveColor: Colors.blueGrey),
                 ),
                 MyElevatedButton(
+                    onPressed: () {},
                     buttonText: "Continue",
                     primaryColor: _blueColor,
                     minimumSize:
@@ -55,7 +57,7 @@ class _PinInputView extends State<PinInputView> {
   }
 
   AppBar _myAppBar(String title) {
-    return AppBar(
+    return MyAppBar(
       backgroundColor: const Color(0xff000513),
       centerTitle: true,
       title: MyText(
@@ -65,6 +67,8 @@ class _PinInputView extends State<PinInputView> {
         fontWeight: FontWeight.w700,
         overflow: TextOverflow.visible,
       ),
+      actions: [],
+      automaticallyImplyLeading: true,
     );
   }
 }

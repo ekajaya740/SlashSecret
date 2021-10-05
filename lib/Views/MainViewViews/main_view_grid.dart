@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_secret/Database/files_database.dart';
 import 'package:my_secret/widgets/my_card.dart';
 import 'package:my_secret/widgets/my_text.dart';
-import '../../Database/folder_database.dart';
+import '../../Database/account_database.dart';
 
 class MainViewGrid extends StatefulWidget {
   @override
@@ -21,13 +22,16 @@ class _MainViewGrid extends State<MainViewGrid> {
             ? axisCount = 2
             : axisCount = 4,
       ),
-      itemCount: folders.length,
+      itemCount: files.length,
       physics: ScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        final FolderDatabase folderDatabase = folders[index];
+        final FilesDatabase filesDatabase = files[index];
         return MyCard(
+            onTap: () {
+
+            },
             child: _folderFront(
-                folderDatabase.folderName, folderDatabase.isLocked));
+                filesDatabase.fileName, filesDatabase.isLocked));
       },
     );
   }
@@ -39,17 +43,17 @@ class _MainViewGrid extends State<MainViewGrid> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Stack(
-          alignment: AlignmentDirectional.bottomStart,
+          alignment: AlignmentDirectional.bottomCenter,
           children: [
             Icon(
-              Icons.folder_rounded,
+              Icons.insert_drive_file_rounded,
               color: _folderColor,
               size: 98,
             ),
             Visibility(
               visible: isLocked,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 20, left: 12),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Icon(
                   Icons.lock_rounded,
                   color: _lockColor,

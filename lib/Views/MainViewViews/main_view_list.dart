@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_secret/Database/folder_database.dart';
+import 'package:my_secret/Database/files_database.dart';
 import 'package:my_secret/widgets/my_card.dart';
 import 'package:my_secret/widgets/my_text.dart';
+import '../files_content_view.dart';
 
 class MainViewList extends StatefulWidget {
   @override
@@ -14,12 +15,15 @@ class _MainViewList extends State<MainViewList> {
   Widget build(BuildContext context) {
     const Color _dividerColor = Color(0xffB5B5B5);
     return ListView.separated(
-      itemCount: folders.length,
+      itemCount: files.length,
       itemBuilder: (context, index) {
-        final FolderDatabase folderDatabase = folders[index];
+        final FilesDatabase filesDatabase = files[index];
         return MyCard(
+            onTap: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FilesContentView()));
+            },
             child: _folderFront(
-                folderDatabase.folderName, folderDatabase.isLocked));
+                filesDatabase.fileName, filesDatabase.isLocked));
       },
       separatorBuilder: (BuildContext context, int index) {
         return Padding(
@@ -40,7 +44,7 @@ class _MainViewList extends State<MainViewList> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Icon(
-          Icons.folder_rounded,
+          Icons.insert_drive_file_rounded,
           color: _folderColor,
           size: 40,
         ),

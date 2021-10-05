@@ -3,21 +3,36 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_secret/Database/account_database.dart';
+import 'package:my_secret/Views/main_view.dart';
 import 'package:my_secret/widgets/my_elevated_button.dart';
 import 'package:my_secret/widgets/my_text.dart';
 import '../widgets/my_animated_text.dart';
 import '../widgets/my_text_form_field.dart';
+import '../Database/files_database.dart';
 
-class Login extends StatefulWidget {
+class LoginView extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _Login();
+  State<StatefulWidget> createState() => _LoginView();
 }
 
-class _Login extends State<Login> {
+class _LoginView extends State<LoginView> {
+  late var username;
+  final TextEditingController _usernameController = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    const Color redColor = Color(0xffFF5B5B);
-    const Color blueColor = Color(0xff007CB1);
+    const Color _redColor = Color(0xffFF5B5B);
+    const Color _blueColor = Color(0xff007CB1);
     final String logoMain = "images/logo_no_text.svg";
     final Widget logoDisplay = SvgPicture.asset(
       logoMain,
@@ -25,6 +40,7 @@ class _Login extends State<Login> {
       width: 98,
       height: 98,
     );
+
     return Scaffold(
       body: SingleChildScrollView(
           physics: ClampingScrollPhysics(),
@@ -54,7 +70,7 @@ class _Login extends State<Login> {
                         Row(children: [
                           MyAnimatedText(
                             text: "echo ",
-                            textColor: redColor,
+                            textColor: _redColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w300,
                             speedAnimationDuration:
@@ -85,7 +101,7 @@ class _Login extends State<Login> {
                               ),
                               MyAnimatedText(
                                 text: "sudo ",
-                                textColor: redColor,
+                                textColor: _redColor,
                                 fontSize: 36,
                                 fontWeight: FontWeight.w700,
                                 speedAnimationDuration:
@@ -106,21 +122,19 @@ class _Login extends State<Login> {
                           ),
                         ),
                         _tffUsername(
-                          blueColor,
-                          Icon(
-                            Icons.account_circle_rounded,
-                            color: blueColor,
-                          ),
-                        ),
+                            Icon(
+                              Icons.account_circle_rounded,
+                              color: _blueColor,
+                            ),
+                            _usernameController),
                         Padding(
                           padding: const EdgeInsets.only(top: 12),
                           child: _tffPassword(
-                            blueColor,
-                            Icon(
-                              Icons.lock_rounded,
-                              color: blueColor,
-                            ),
-                          ),
+                              Icon(
+                                Icons.lock_rounded,
+                                color: _blueColor,
+                              ),
+                              _passwordController),
                         ),
                       ],
                     ),
@@ -128,7 +142,10 @@ class _Login extends State<Login> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [_loginButton(blueColor)],
+                    children: [
+                      _loginButton(_blueColor, _usernameController,
+                          _passwordController, context)
+                    ],
                   ),
                 ],
               ),
@@ -137,18 +154,63 @@ class _Login extends State<Login> {
     );
   }
 
-  Widget _tffUsername(Color enabledColor, Icon icon) {
-    return MyTextFormField("Username", enabledColor, icon, TextInputType.text,
-        TextInputAction.next, false);
+  Widget _tffUsername(Icon icon,
+      TextEditingController textEditingController) {
+    return MyTextFormField(
+      hint: "Username",
+      icon: icon,
+      textInputType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      obscureText: false,
+      textEditingController: textEditingController,
+    );
   }
 
-  Widget _tffPassword(Color enabledColor, Icon icon) {
-    return MyTextFormField("Password", enabledColor, icon,
-        TextInputType.visiblePassword, TextInputAction.none, true);
+  Widget _tffPassword(Icon icon,
+      TextEditingController textEditingController) {
+    return MyTextFormField(
+      hint: "Password",
+      icon: icon,
+      textInputType: TextInputType.visiblePassword,
+      textInputAction: TextInputAction.none,
+      obscureText: true,
+      textEditingController: textEditingController,
+    );
   }
 
-  Widget _loginButton(Color primaryColor) {
+  Widget _loginButton(
+      Color primaryColor,
+      TextEditingController usernameController,
+      TextEditingController passwordController,
+      BuildContext context) {
     return MyElevatedButton(
+        onPressed: () {
+          for (int index = 0; index < accounts.length; index++) {
+            if (usernameController.text == accounts[index].username &&
+                passwordController.text == accounts[index].password) {
+              this.username = usernameController.text;
+              if (usernameController.text == accounts[0].username &&
+                  passwordController.text == accounts[0].password) {
+                files.add(FilesDatabase(
+                    fileName: 'Secret',
+                    isLocked: true,
+                    fileContent: "This is Secret"));
+                files.add(FilesDatabase(
+                    fileName:
+                        "folderNameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    isLocked: false,
+                    fileContent: "folderContent"));
+              }
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MainView(username: this.username)));
+              _usernameController.clear();
+              _passwordController.clear();
+              //Change UsernameController
+            }
+          }
+        },
         buttonText: "Login",
         primaryColor: primaryColor,
         minimumSize: Size(MediaQuery.of(context).size.width - 32, 48));

@@ -6,33 +6,39 @@ class MyElevatedButton extends StatefulWidget {
   final String buttonText;
   final Color primaryColor;
   final Size minimumSize;
+  final GestureTapCallback onPressed;
 
   MyElevatedButton(
       {required this.buttonText,
       required this.primaryColor,
-      required this.minimumSize});
+      required this.minimumSize,
+      required this.onPressed});
 
   @override
   State<StatefulWidget> createState() => _MyElevatedButton(
       buttonText: this.buttonText,
       primaryColor: this.primaryColor,
-      minimumSize: this.minimumSize);
+      minimumSize: this.minimumSize,
+      onPressed: this.onPressed);
 }
 
 class _MyElevatedButton extends State<MyElevatedButton> {
   final String buttonText;
   final Color primaryColor;
   final Size minimumSize;
+  final GestureTapCallback onPressed;
 
-  _MyElevatedButton(
-      {required this.buttonText,
-      required this.primaryColor,
-      required this.minimumSize});
+  _MyElevatedButton({
+    required this.buttonText,
+    required this.primaryColor,
+    required this.minimumSize,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text(
         buttonText,
         style: GoogleFonts.montserrat(

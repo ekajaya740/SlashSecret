@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_secret/Views/files_content_view.dart';
 import 'package:my_secret/Views/main_view.dart';
 import 'Views/login_view.dart';
 import 'Views/pin_input_view.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
         )
       ),
-      home: Login(),
+      home:LoginView(),
     );
   }
 }

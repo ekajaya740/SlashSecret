@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 
 class MyCard extends StatefulWidget {
   final Widget child;
+  final GestureTapCallback onTap;
 
-  MyCard({required this.child});
+  MyCard({required this.child, required this.onTap});
 
   @override
-  State<StatefulWidget> createState() => _MyCard(child: child);
+  State<StatefulWidget> createState() =>
+      _MyCard(child: child, onTap: this.onTap);
 }
 
 class _MyCard extends State<MyCard> {
-  Widget child;
+  final Widget child;
+  final GestureTapCallback onTap;
 
-  _MyCard({required this.child});
+  _MyCard({required this.child, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    const Color _borderColor = Color(0xff818181);
     return InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Card(
