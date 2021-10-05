@@ -33,6 +33,7 @@ class _PinInputView extends State<PinInputView> {
   @override
   Widget build(BuildContext context) {
     const Color _blueColor = Color(0xff007CB1);
+    const Color _redColor = Color(0xffCF3434);
     String _pinInput;
     return SafeArea(
       child: Scaffold(
@@ -66,12 +67,13 @@ class _PinInputView extends State<PinInputView> {
                       fieldHeight: 40,
                       fieldWidth: 40,
                       activeColor: _blueColor,
+                      errorBorderColor: _redColor,
                       inactiveColor: Colors.blueGrey),
                 ),
                 MyElevatedButton(
                     onPressed: () {
                       if (_pinController.text == pin) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => FilesContentView(

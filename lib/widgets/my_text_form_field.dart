@@ -11,6 +11,7 @@ class MyTextFormField extends StatefulWidget {
   final TextEditingController? textEditingController;
   final int maxLines;
   final String? initialValue;
+  final FormFieldValidator? formFieldValidator;
 
   MyTextFormField(
       {this.hint,
@@ -20,7 +21,7 @@ class MyTextFormField extends StatefulWidget {
       required this.obscureText,
       this.textEditingController,
       required this.maxLines,
-      this.initialValue});
+      this.initialValue, this.formFieldValidator});
 
   @override
   State<StatefulWidget> createState() => _MyTextFormField(
@@ -31,7 +32,7 @@ class MyTextFormField extends StatefulWidget {
       obscureText: this.obscureText,
       textEditingController: this.textEditingController,
       maxLines: this.maxLines,
-      initialValue: this.initialValue);
+      initialValue: this.initialValue, formFieldValidator: this.formFieldValidator);
 }
 
 class _MyTextFormField extends State<MyTextFormField> {
@@ -43,6 +44,7 @@ class _MyTextFormField extends State<MyTextFormField> {
   final TextEditingController? textEditingController;
   final int maxLines;
   final String? initialValue;
+  final FormFieldValidator? formFieldValidator;
 
   final TextStyle _tfTextStyle = GoogleFonts.montserrat(
       color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600);
@@ -55,20 +57,21 @@ class _MyTextFormField extends State<MyTextFormField> {
       required this.obscureText,
       this.textEditingController,
       required this.maxLines,
-      this.initialValue});
+      this.initialValue, this.formFieldValidator});
 
   @override
   Widget build(BuildContext context) {
     const Color _redColor = Color(0xffCF3434);
     const Color _blueColor = Color(0xff007CB1);
     return TextFormField(
-      controller: textEditingController,
+      autovalidateMode: AutovalidateMode.always, controller: textEditingController,
       obscureText: obscureText,
       keyboardType: textInputType,
       textInputAction: textInputAction,
       style: _tfTextStyle,
       decoration: _tffInputDecoration(hint, _blueColor, _redColor, icon),
       maxLines: maxLines,
+      validator: formFieldValidator,
     );
   }
 
@@ -88,6 +91,7 @@ class _MyTextFormField extends State<MyTextFormField> {
         focusedBorder: _tffOutlineInputBorder(Colors.blue),
         enabledBorder: _tffOutlineInputBorder(enabledColor),
         errorBorder: _tffOutlineInputBorder(errorColor),
+        focusedErrorBorder: _tffOutlineInputBorder(errorColor),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
         hintStyle: tfHintStyle);

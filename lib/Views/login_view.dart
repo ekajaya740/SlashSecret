@@ -21,6 +21,7 @@ class _LoginView extends State<LoginView> {
   late var pin;
   final TextEditingController _usernameController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
+  final GlobalKey<FormState> _formState = new GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -66,6 +67,7 @@ class _LoginView extends State<LoginView> {
                     ),
                   ),
                   Form(
+                    key: _formState,
                     child: Column(
                       children: [
                         Row(children: [
@@ -139,6 +141,7 @@ class _LoginView extends State<LoginView> {
                         ),
                       ],
                     ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -214,9 +217,16 @@ class _LoginView extends State<LoginView> {
               //Change UsernameController
             }
           }
+          validateInput();
         },
         buttonText: "Login",
         primaryColor: primaryColor,
         minimumSize: Size(MediaQuery.of(context).size.width - 32, 48));
+  }
+
+  void validateInput(){
+    if(_formState.currentState!.validate()){
+      _formState.currentState!.save();
+    }
   }
 }
