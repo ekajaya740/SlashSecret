@@ -3,13 +3,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_secret/Database/account_database.dart';
+import 'package:my_secret/Databases/account_database.dart';
+import 'package:my_secret/Validators/password_validator.dart';
 import 'package:my_secret/Views/main_view.dart';
 import 'package:my_secret/widgets/my_elevated_button.dart';
 import 'package:my_secret/widgets/my_text.dart';
 import '../widgets/my_animated_text.dart';
 import '../widgets/my_text_form_field.dart';
-import '../Database/files_database.dart';
+import '../Databases/files_database.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class LoginView extends StatefulWidget {
 class _LoginView extends State<LoginView> {
   late var username;
   late var pin;
+  late var files;
   final TextEditingController _usernameController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
   final GlobalKey<FormState> _formState = new GlobalKey<FormState>();
@@ -191,27 +193,17 @@ class _LoginView extends State<LoginView> {
       BuildContext context) {
     return MyElevatedButton(
         onPressed: () {
+          PasswordValidator passwordValidator = new PasswordValidator();
           for (int index = 0; index < accounts.length; index++) {
             if (usernameController.text == accounts[index].username &&
-                passwordController.text == accounts[index].password) {
+                passwordController.text == passwordValidator.passwordValidator(accounts[index].password)) {
               this.username = usernameController.text;
               this.pin = accounts[index].pin;
-              if (usernameController.text == accounts[0].username &&
-                  passwordController.text == accounts[0].password) {
-                files.add(FilesDatabase(
-                    fileName: 'Secret',
-                    isLocked: true,
-                    fileContent: "This is Secret"));
-                files.add(FilesDatabase(
-                    fileName:
-                        "folderNameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                    isLocked: false,
-                    fileContent: "folderContent"));
-              }
+              this.files = accounts[index].files;
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MainView(username: this.username, pin: this.pin,)));
+                      builder: (context) => MainView(username: this.username, pin: this.pin, files: this.files,)));
               _usernameController.clear();
               _passwordController.clear();
               //Change UsernameController

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_secret/Database/account_database.dart';
-import 'package:my_secret/Database/files_database.dart';
+import 'package:my_secret/Databases/account_database.dart';
+import 'package:my_secret/Databases/files_database.dart';
 import 'package:my_secret/Views/MainViewViews/main_view_grid.dart';
 import 'package:my_secret/Views/MainViewViews/main_view_list.dart';
 import 'package:my_secret/Views/login_view.dart';
@@ -11,26 +11,30 @@ import '../widgets/my_text.dart';
 class MainView extends StatefulWidget {
   final String username;
   final String pin;
+  final List<FilesDatabase> files;
 
-  MainView({required this.username, required this.pin});
+  MainView({required this.username, required this.pin, required this.files});
 
   @override
-  State<StatefulWidget> createState() => _MainView(username: this.username, pin: this.pin);
+  State<StatefulWidget> createState() =>
+      _MainView(username: this.username, pin: this.pin, files: this.files);
 }
 
 class _MainView extends State<MainView> {
   bool _isGrid = true;
   final String username;
   final String pin;
+  final List<FilesDatabase> files;
 
-  _MainView({required this.username, required this.pin});
+  _MainView({required this.username, required this.pin, required this.files});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
           appBar: _myAppbar(username),
-          body: _isGrid ? MainViewGrid(pin: this.pin,) : MainViewList(pin: this.pin,),
+          body: _isGrid ? MainViewGrid(pin: this.pin, files: this.files,) : MainViewList(
+            pin: this.pin, files: this.files,),
         ));
   }
 
@@ -52,7 +56,6 @@ class _MainView extends State<MainView> {
             setState(() {
               _isGrid = !_isGrid;
             });
-            //Disable Pop on back click
           },
           icon: _isGrid
               ? Icon(
@@ -66,10 +69,6 @@ class _MainView extends State<MainView> {
           onPressed: () {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => LoginView()));
-            if (accounts[0].username == username) {
-              files.removeLast();
-              files.removeLast();
-            }
           },
           icon: Icon(
             Icons.logout_rounded,

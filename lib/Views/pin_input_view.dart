@@ -6,6 +6,7 @@ import 'package:my_secret/widgets/my_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../widgets/my_appbar.dart';
 import 'files_content_view.dart';
+import '../Validators/pin_validator.dart';
 
 class PinInputView extends StatefulWidget {
   final String pin;
@@ -72,7 +73,8 @@ class _PinInputView extends State<PinInputView> {
                 ),
                 MyElevatedButton(
                     onPressed: () {
-                      if (_pinController.text == pin) {
+                      PinValidator pinValidator = new PinValidator();
+                      if (_pinController.text == pinValidator.pinValidator(pin)) {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

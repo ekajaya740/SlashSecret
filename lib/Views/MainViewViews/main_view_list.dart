@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_secret/Database/files_database.dart';
+import 'package:my_secret/Databases/files_database.dart';
+import 'package:my_secret/Validators/password_validator.dart';
 import 'package:my_secret/Views/pin_input_view.dart';
 import 'package:my_secret/widgets/my_card.dart';
 import 'package:my_secret/widgets/my_text.dart';
@@ -8,16 +9,20 @@ import '../files_content_view.dart';
 
 class MainViewList extends StatefulWidget {
   final String pin;
+  final List<FilesDatabase> files;
 
-  MainViewList({required this.pin});
+  MainViewList({required this.pin, required this.files});
+
   @override
-  State<StatefulWidget> createState() => _MainViewList(pin: this.pin);
+  State<StatefulWidget> createState() =>
+      _MainViewList(pin: this.pin, files: this.files);
 }
 
 class _MainViewList extends State<MainViewList> {
   final String pin;
+  final List<FilesDatabase> files;
 
-  _MainViewList({required this.pin});
+  _MainViewList({required this.pin, required this.files});
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +30,31 @@ class _MainViewList extends State<MainViewList> {
     return ListView.separated(
       itemCount: files.length,
       itemBuilder: (context, index) {
-        final FilesDatabase filesDatabase = files[index];
-
         return MyCard(
             onTap: () {
-              if(filesDatabase.isLocked){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => PinInputView(pin: this.pin, fileName: filesDatabase.fileName, fileData: filesDatabase.fileContent,)));
-              }else{
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => FilesContentView(fileData: filesDatabase.fileContent,fileName: filesDatabase.fileName)));
+              if (this.files[index].isLocked) {
+                final PasswordValidator passwordValidator =
+                    new PasswordValidator();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => PinInputView(
+                              pin: this.pin,
+                              fileName: this.files[index].fileName,
+                              fileData: passwordValidator.passwordValidator(
+                                  this.files[index].fileContent),
+                            )));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => FilesContentView(
+                            fileData: this.files[index].fileContent,
+                            fileName: this.files[index].fileName)));
               }
             },
             child: _folderFront(
-                filesDatabase.fileName, filesDatabase.isLocked));
+                this.files[index].fileName, this.files[index].isLocked));
       },
       separatorBuilder: (BuildContext context, int index) {
         return Padding(
